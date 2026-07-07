@@ -1,0 +1,28 @@
+# ────────────────────────────────────────────────────────────
+# NEVER commit secrets or live sessions to Git.
+# ────────────────────────────────────────────────────────────
+
+# Real credentials file (keep only suppliers.json which has NO passwords)
+backend/suppliers.secret.json
+backend/*.secret.json
+secrets.json
+.env
+.env.*
+
+# Persistent portal login sessions (contain cookies/tokens)
+pf_sessions/
+backend/pf_sessions/
+*.storage_state.json
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+env/
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+*.log

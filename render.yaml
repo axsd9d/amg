@@ -1,0 +1,58 @@
+# Render Blueprint — deploys PartFinder as a Docker web service.
+# In the Render dashboard: New + -> Blueprint -> pick your GitHub repo.
+# Render reads this file automatically.
+#
+# IMPORTANT: The `sync: false` env vars below are SECRETS. Render will prompt
+# you to enter their values in the dashboard; they are stored ENCRYPTED and are
+# NEVER committed to Git.
+
+services:
+  - type: web
+    name: partfinder
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: standard          # Playwright/Chromium needs RAM; free tier is too small
+    healthCheckPath: /api/suppliers
+    envVars:
+      - key: PARTFINDER_HEADLESS
+        value: "1"
+      - key: PF_STATE_DIR
+        value: /tmp/pf_sessions
+
+      # ── GPT-Vision extraction (SECRETS — enter API key in dashboard) ──
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_VISION_MODEL
+        value: gpt-4o-mini
+
+      # ── Supplier credentials (SECRETS — enter values in the dashboard) ──
+      - key: ALLPOINTS_USER
+        sync: false
+      - key: ALLPOINTS_PASS
+        sync: false
+      - key: AMAZON_USER
+        sync: false
+      - key: AMAZON_PASS
+        sync: false
+      - key: FERGUSON_USER
+        sync: false
+      - key: FERGUSON_PASS
+        sync: false
+      - key: GRAINGER_USER
+        sync: false
+      - key: GRAINGER_PASS
+        sync: false
+      - key: JOHNSTONE_USER
+        sync: false
+      - key: JOHNSTONE_PASS
+        sync: false
+      - key: PARTSTOWN_USER
+        sync: false
+      - key: PARTSTOWN_PASS
+        sync: false
+
+      # ── Optional: single encrypted vault instead of the vars above ──
+      - key: SECRETS_KEY
+        sync: false
+      - key: SECRETS_ENC
+        sync: false
