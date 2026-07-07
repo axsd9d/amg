@@ -1138,7 +1138,7 @@ body {
 
 // Backend that performs auto-login + live scrape. Defaults to same origin
 // (works when this page is served by serve_all.py). Override in ⚙ Settings.
-let API_BASE = localStorage.getItem('pf_api') || window.location.origin;
+let API_BASE = window.location.origin;
 
 // Supplier metadata for the directory + offline link fallback (NO passwords).
 const SUPPLIERS_DATA = [
@@ -1331,25 +1331,6 @@ function showLoading(text = 'Working...', subtext = '') {
   $('#loading-subtext').textContent = subtext;
 }
 function hideLoading() { $('#loading-overlay').classList.remove('visible'); }
-
-// ─── Settings (backend URL) ─────────────────────
-function openSettings() {
-  $('#modal-title').textContent = 'Settings';
-  $('#modal-body').innerHTML =
-    '<div class="form-group"><label class="form-label">Backend URL (PartFinder server)</label>' +
-    '<input id="cfg-api" class="form-input" autocomplete="off" placeholder="http://192.168.1.50:8000" value="' +
-      String(API_BASE).replace(/"/g, '&quot;') + '"></div>' +
-    '<p style="font-size:12px;color:var(--text-muted);line-height:1.5">The server logs into the supplier portals and returns live pricing. ' +
-    'Leave as-is if you opened this page directly from the server. Reachable over your LAN/VPN.</p>' +
-    '<button class="btn btn-success" onclick="saveSettings()" style="margin-top:8px">Save</button>';
-  $('#modal-overlay').classList.add('visible');
-}
-function saveSettings() {
-  const v = ($('#cfg-api').value || '').trim().replace(/\/+$/, '');
-  if (v) { API_BASE = v; localStorage.setItem('pf_api', v); toast('Backend set'); }
-  state.suppliers = [];
-  closeModal();
-}
 
 // ─── Camera & Upload ───────────────────────────
 function initUpload() {
